@@ -1,10 +1,10 @@
-dao/SQLConnection.java
- dao.SQLConnection
 dao/ICustomerDao.java
  dao.ICustomerDao
 model/Customer.java
  model.Customer
-dao/CustomerDao.java
- dao.CustomerDao
+dao/SQLConnection.java
+ dao.SQLConnection
 controller/CustomerServlet.java
  controller.CustomerServlet
+dao/CustomerDao.java
+ dao.CustomerDao

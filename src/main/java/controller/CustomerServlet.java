@@ -20,24 +20,24 @@ public class CustomerServlet extends HttpServlet {
         String action = request.getParameter("action");
         if (action == null) {
             action = "";
-        }
-        switch (action) {
-            case "create":
-                showCreateCustomer(request, response);
-                break;
-            case "edit":
-                showEditForm(request, response);
-                break;
-            case "delete":
-                try {
-                    deleteCustomer(request,response);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                break;
-            default:
-                listCustomer(request, response);
-                break;
+            switch (action) {
+                case "create":
+                    showCreateCustomer(request, response);
+                    break;
+                case "edit":
+                    showEditForm(request, response);
+                    break;
+                case "delete":
+                    try {
+                        deleteCustomer(request, response);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                default:
+                    listCustomer(request, response);
+                    break;
+            }
         }
     }
 
@@ -79,17 +79,19 @@ public class CustomerServlet extends HttpServlet {
         }
     }
 
-    private void deleteCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+    private void deleteCustomer(HttpServletRequest request, HttpServletResponse response) throws
+            ServletException, IOException, SQLException {
         int id = Integer.parseInt(request.getParameter("id"));
         customerDao.delete(id);
         List<Customer> list = customerDao.findAll();
-        request.setAttribute("customerList",list);
+        request.setAttribute("customerList", list);
         RequestDispatcher dispatcher = request.getRequestDispatcher("customer/list.jsp");
-        dispatcher.forward(request,response);
+        dispatcher.forward(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws
+            ServletException, IOException {
         String action = request.getParameter("action");
         if (action == null) {
             action = "";
@@ -125,12 +127,17 @@ public class CustomerServlet extends HttpServlet {
         }
     }
 
-    private void updateCustomer(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+    private void updateCustomer(HttpServletRequest request, HttpServletResponse response) throws
+            SQLException, ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         int age = Integer.parseInt(request.getParameter("age"));
         String name = request.getParameter("name");
         Customer customer = new Customer(id, name, age);
-        customerDao.updateUser(customer);
+        try {
+            customerDao.updateUser(customer);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         RequestDispatcher dispatcher = request.getRequestDispatcher("customer/edit.jsp");
         dispatcher.forward(request, response);
 

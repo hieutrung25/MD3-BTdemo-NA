@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerDao implements ICustomerDao {
-    private final String FIND_ALL_QUERY = "select*from cus;";
-    private final String INSERT_CUSTOMER = "INSERT INTO cus" + "  (name,age) VALUES " +
-            " (?, ?);";
-    private final String UPDATE_CUSTOMER = "update cus set name = ?, age =? where id = ?;";
-    private static final String SELECT_CUSTOMER_BY_ID = "select * from cus where id =?;";
-    private static final String DELETE_CUSTOMER_SQL = "delete from cus where id = ?;";
+    private final String FIND_ALL_QUERY = "select*from customer;";
+    private final String INSERT_CUSTOMER = "INSERT INTO customer" + "  (idCus, name,age) VALUES " +
+            " (?, ?, ?);";
+    private final String UPDATE_CUSTOMER = "update customer set name = ?, age =? where idCus = ?;";
+    private static final String SELECT_CUSTOMER_BY_ID = "select * from customer where idCus =?;";
+    private static final String DELETE_CUSTOMER_SQL = "delete from customer where idCus = ?;";
     SQLConnection sqlConnection = new SQLConnection();
 
     @Override
@@ -54,7 +54,7 @@ public class CustomerDao implements ICustomerDao {
             PreparedStatement statement = connection.prepareStatement(FIND_ALL_QUERY);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                int id = rs.getInt("id");
+                int id = rs.getInt("idCus");
                 String name = rs.getString("name");
                 int age = rs.getInt("age");
                 list.add(new Customer(id, name, age));
